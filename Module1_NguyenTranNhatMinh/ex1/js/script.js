@@ -13,6 +13,7 @@ function tinhTongBoiChung(mangSo) {
     }
     return tong;
 }
+
 var n = prompt("Nhập kích thước mảng (không quá 20):");
 if(n>=20){
     console.log("Kích thước mảng lớn hơn 20");
