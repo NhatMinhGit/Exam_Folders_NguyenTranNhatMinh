@@ -22,8 +22,11 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
-    compileOnly('jakarta.servlet:jakarta.servlet-api:5.0.0')
-
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:5.0.0'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0'
+    providedCompile 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    providedCompile 'jakarta.servlet.jsp:jakarta.servlet.jsp-api:3.1.1'
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
