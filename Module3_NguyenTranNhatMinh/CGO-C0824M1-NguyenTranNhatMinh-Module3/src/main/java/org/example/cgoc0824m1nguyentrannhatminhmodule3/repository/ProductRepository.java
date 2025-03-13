@@ -102,54 +102,6 @@ public class ProductRepository {
             throw new RuntimeException(e);
         }
     }
-    public List<Product> searchByName(String keyword) {
-        List<Product> productList = new ArrayList<>();
-        String query = "SELECT * FROM products WHERE name LIKE ?";
-
-        try (Connection connection = BaseRepository.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setString(1, "%" + keyword + "%"); // Sử dụng LIKE để tìm kiếm chuỗi chứa từ khóa
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                double price = resultSet.getDouble("price");
-                int quantity = resultSet.getInt("quantity");
-                String color = resultSet.getString("color");
-                String description = resultSet.getString("description");
-                int categoryId = resultSet.getInt("category_id");
-
-                // Tìm category dựa vào categoryId
-                Category category = categoryService.findById(categoryId);
-
-                Product product = new Product(id, name, price, quantity, color, description, category);
-                productList.add(product);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return productList;
-    }
-    public List<Product> searchProductsByName(String keyword) {
-        return findAll().stream()
-                .filter(p -> p.getName().toLowerCase().contains(keyword.toLowerCase()))
-                .collect(Collectors.toList());
-    }
-
-    public List<Product> searchProductsByPrice(String keyword) {
-        try {
-            double price = Double.parseDouble(keyword);
-            return findAll().stream()
-                    .filter(p -> p.getPrice() == price)
-                    .collect(Collectors.toList());
-        } catch (NumberFormatException e) {
-            return new ArrayList<>(); // Trả về danh sách rỗng nếu nhập sai định dạng số
-        }
-    }
-
     public List<Product> searchProducts(String name, String price, String categoryName, String color) {
         List<Product> result = new ArrayList<>();
         List<String> conditions = new ArrayList<>();
